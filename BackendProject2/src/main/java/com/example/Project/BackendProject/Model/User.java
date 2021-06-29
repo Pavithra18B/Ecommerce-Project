@@ -4,10 +4,14 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Data
+@AllArgsConstructor
+@Slf4j
 @Table(name = "usertable")
 public class User {
 	@Id
@@ -43,12 +47,12 @@ public class User {
 	private Set<Role> role;
 
 	public User() {
-		System.out.println("User Entity");
+		log.info("User Entity");
 	}
 
 	public User(int id) {
 		// TODO Auto-generated constructor stub
 	}
 
-	
+
 }

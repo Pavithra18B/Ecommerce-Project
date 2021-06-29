@@ -10,5 +10,5 @@ import com.example.Project.BackendProject.JwtDto.ApiResponse;
 public interface ProductControllerInter {
 	public ResponseEntity<List<ProductRequest>> getProducts();
 	public ResponseEntity<ApiResponse> addProduct(ProductRequest productRequest);
-	public ResponseEntity<ApiResponse> updateProduct(long productid,ProductRequest productRequest);
+	public ResponseEntity<ApiResponse> updateProduct(long productId,ProductRequest productRequest);
 }

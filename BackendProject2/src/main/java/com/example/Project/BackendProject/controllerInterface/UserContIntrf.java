@@ -7,7 +7,8 @@ import com.example.Project.BackendProject.Model.User;
 
 public interface UserContIntrf {
 	public User addUser(UserRequest userRequest);
-	  public List listUser();
-	  public User getOne(int id);
-	  public User deleteUser(int id);
+	public List listUser();
+	  public User getOne(int userId);
+	  public User deleteUser(int userId);
+
 }

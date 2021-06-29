@@ -9,5 +9,5 @@ public interface CategoryServiceInter {
 	public void createCategory(Category category);
 	public Category readCategory(String categoryName);
 	public Optional<Category> readCategory(Long categoryId);
-	public void updateCategory(Long categoryID, Category newCategory);
+	public void updateCategory(Long categoryId, Category newCategory);
 }

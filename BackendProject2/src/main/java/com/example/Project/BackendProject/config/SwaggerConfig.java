@@ -25,7 +25,7 @@ public class SwaggerConfig {
 	public static final String AUTHORIZATION_HEADER = "Authorization";
 
     private ApiKey apiKey(){
-        return new ApiKey("jwtToken", AUTHORIZATION_HEADER, "header");
+        return new ApiKey("Authorization", AUTHORIZATION_HEADER, "header");
     }  
 	@Bean
     public Docket productapi() { 
@@ -58,6 +58,6 @@ public class SwaggerConfig {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(new SecurityReference("jwtToken", authorizationScopes));
+        return Arrays.asList(new SecurityReference("Authorization", authorizationScopes));
     }	
 }

@@ -9,19 +9,21 @@ import com.example.Project.BackendProject.Model.Role;
 import com.example.Project.BackendProject.Repository.RoleRepo;
 import com.example.Project.BackendProject.ServiceInterface.RoleServInter;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class RoleService implements RoleServInter {
 
 	@Autowired
 	private RoleRepo roleRepo;
-
+	
 	public Role addRole(RoleRequest roleRequest) {
 
 		Role role = new Role();
-		System.out.println(role.toString());
-		role.setRole_name(roleRequest.getRole_name());
-		role.setRole_description(roleRequest.getRole_description());
+		log.info(role.toString());
+		role.setRoleName(roleRequest.getRoleName());
+		role.setRoleDescription(roleRequest.getRoleDescription());
 
 		return roleRepo.save(role);
 	}

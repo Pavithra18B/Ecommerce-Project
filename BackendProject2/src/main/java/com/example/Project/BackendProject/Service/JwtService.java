@@ -20,6 +20,8 @@ import com.example.Project.BackendProject.JwtDto.JwtResponse;
 import com.example.Project.BackendProject.Model.User;
 import com.example.Project.BackendProject.Repository.UserRepo;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 public class JwtService implements UserDetailsService{
 	@Autowired
@@ -31,19 +33,15 @@ public class JwtService implements UserDetailsService{
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	// returning generated t0ken
+	// returning generated token
 
 	public JwtResponse createJwtToken(JwtRequest jwtRequest) throws Exception {
-		System.out.println("getting user name (jwt service)");
+		log.info("getting user name (jwt service)");
 
 		String user_name = jwtRequest.getUser_name();
 		String user_password = jwtRequest.getUser_password();
-		// authenticate(user_name, user_password);
-
-		// UserDetails userDetails = loadUserByUsername(user_name);
-
 		User user = userRepo.findByUserName(user_name);
-		System.out.println(user);
+		log.info(user.toString());
 		String newGeneratedToken = jwtUtil.generateToken(user_name);
 		return new JwtResponse(user, newGeneratedToken);
 
@@ -52,7 +50,7 @@ public class JwtService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String user_name) throws UsernameNotFoundException {
 
-		System.out.println("able to find (jwt Service class)");
+		log.info("able to find (jwt Service class)");
 
 		User user = userRepo.findByUserName(user_name);
 
@@ -66,18 +64,18 @@ public class JwtService implements UserDetailsService{
 	}
 
 	private Set getAuthority(User user) {
-		System.out.println("autharity to role(jwt service)");
+		log.info("autharity to role(jwt service)");
 
 		Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 		user.getRole().forEach(role -> {
-			authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRole_name()));
+			authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
 		});
 		return authorities;
 	}
 
 	private void authenticate(String user_name, String user_password) throws Exception {
 
-		System.out.println("credentail exceptions");
+		log.info("credentail exceptions");
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user_name, user_password));
 		} catch (DisabledException e) {

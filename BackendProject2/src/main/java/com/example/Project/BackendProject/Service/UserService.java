@@ -8,13 +8,9 @@ import java.util.Optional;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.example.Project.BackendProject.Dto.UserRequest;
 import com.example.Project.BackendProject.Model.Role;
@@ -23,6 +19,8 @@ import com.example.Project.BackendProject.Repository.RoleRepo;
 import com.example.Project.BackendProject.Repository.UserRepo;
 import com.example.Project.BackendProject.ServiceInterface.UserServIntr;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 public class UserService implements UserServIntr {
 
@@ -32,19 +30,17 @@ public class UserService implements UserServIntr {
 
 	@Autowired 
 	private RoleRepo roleRepo;
-	
+
 	@Autowired
 	private PasswordEncoder passEncode;
 
-	Logger logger = LoggerFactory.getLogger(UserService.class);
- 
-
 	public String getEncodedPass(String user_password) {
-	return passEncode.encode(user_password);
-	
+		return passEncode.encode(user_password);
+
 	}
-	
-    	public User addUser(UserRequest userRequest) {
+
+	public User addUser(UserRequest userRequest) {
+		log.info("Service method to add user called");
 		User user = new User();
 		Set<Role> roles = new HashSet<>();
 		System.out.println(user.toString());
@@ -53,8 +49,8 @@ public class UserService implements UserServIntr {
 		user.setLast_name(userRequest.getLast_name());
 		user.setEmail_id(userRequest.getEmail_id());
 		user.setUser_password(getEncodedPass(userRequest.getUser_password()));
-		for(Integer role_id: userRequest.getRole()) {
-			Optional<Role> role = roleRepo.findById(role_id);
+		for(Integer roleId: userRequest.getRole()) {
+			Optional<Role> role = roleRepo.findById(roleId);
 			if(!role.isPresent()) {		
 			}else {
 				roles.add(role.get());
@@ -64,26 +60,28 @@ public class UserService implements UserServIntr {
 		return userRepo.save(user);
 	}
 	public List findAll() {
+		log.info("Service method List of user called");
 		List list = new ArrayList<>();
 		userRepo.findAll().iterator().forEachRemaining(list::add);
 		return list;
 	}
-
 	@Override
-	public void delete(int id) {
-		userRepo.deleteById(id);
+	public void delete(int userId) {
+		userRepo.deleteById(userId);
 	}
 
 
 	@Override
-	public User findById(int id) {
-		return userRepo.findById(id).get();
+	public User findById(int userId) {
+		return userRepo.findById(userId).get();
 	}
 
 	@Override
 	public Page<User> getUser(Pageable page) {
-		logger.info("Page", page);
+		log.info("Page", page);
 		Page<User> user = userRepo.findAll(page);
-		logger.info("User", user);
+		log.info("User", user);
 		return userRepo.findAll(page);
-	}}
+	}
+
+}

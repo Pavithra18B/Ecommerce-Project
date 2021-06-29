@@ -2,9 +2,10 @@ package com.example.Project.BackendProject.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.Project.BackendProject.Dto.ProductRequest;
@@ -12,12 +13,18 @@ import com.example.Project.BackendProject.Model.Category;
 import com.example.Project.BackendProject.Model.Product;
 import com.example.Project.BackendProject.Repository.ProductRepo;
 import com.example.Project.BackendProject.ServiceInterface.ProductServiceInter;
+
+import lombok.extern.slf4j.Slf4j;
 @Service
+@Slf4j
 public class ProductService implements ProductServiceInter {
 	@Autowired
 	private ProductRepo productRepo;
+	
+	
     /* PRODUCT */
     public List<ProductRequest> listProducts() {
+    	log.info("Service method list products  called");
         Iterable<Product> products = productRepo.findAll();
         List<ProductRequest> productRequests = new ArrayList<>();
         for(Product product : products) {
@@ -38,15 +45,24 @@ public class ProductService implements ProductServiceInter {
     }
 
     public void addProduct(ProductRequest productRequest, Category category) {
+    	log.info("Service method add product  called");
         Product product = getProductFromDto(productRequest, category);
         productRepo.save(product);
     }
 
-    public void updateProduct(long productID, ProductRequest productRequest, Category category) {
+    public void updateProduct(long productId, ProductRequest productRequest, Category category) {
+    	log.info("Service method update Product  called");
         Product product = getProductFromDto(productRequest, category);
-        product.setId(productID);
+        product.setProductId(productId);
         productRepo.save(product);
     }
+
+	public Page<Product> getProducts(Pageable page) {
+		log.info("Page", page);
+		Page<Product> product = productRepo.findAll(page);
+		log.info("Product", product);
+		return productRepo.findAll(page);
+	}
 
 	
 }

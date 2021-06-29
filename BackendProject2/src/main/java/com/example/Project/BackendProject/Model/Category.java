@@ -1,42 +1,33 @@
 package com.example.Project.BackendProject.Model;
 
 
-import java.util.Set;
-
 import javax.persistence.*;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Table(name = "categories")
 @Data
+@Slf4j
+@AllArgsConstructor
 public class Category {
-	
-		@Id
-		@GeneratedValue(strategy = GenerationType.AUTO)
-		@Column(name = "id")
-		private Long id;
 
-		@Column(name = "categoryName")
-		private  String categoryName;
-		@Column(name = "description")
-		private  String description;
-		@Column(name = "imageUrl")
-		private  String imageUrl;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "category_Id")
+	private Long categoryId;
 
-		// add imageURL here
-		/*
-		 * @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade =
-		 * CascadeType.ALL) Set<Product> products;
-		 */
-		public Category() {
-		}
-		
-		public Category( String categoryName,  String description) {
-			this.categoryName = categoryName;
-			this.description = description;
-		}
+	@Column(name = "category_Name")
+	private  String categoryName;
+	@Column(name = "description")
+	private  String description;
+	@Column(name = "image_Url")
+	private  String imageUrl;
 
-		
+	public Category() {
+		log.info("category Entity");
+	}	
 
 }

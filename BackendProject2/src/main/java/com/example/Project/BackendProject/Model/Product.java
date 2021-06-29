@@ -4,19 +4,23 @@ import javax.persistence.*;
 
 import com.example.Project.BackendProject.Dto.ProductRequest;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Table(name = "products")
 @Data
+@Slf4j
+@AllArgsConstructor
 public class Product {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "productid")
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "product_Id")
+	private Long productId;
 	@Column(name = "name")
 	private String name;
-	@Column(name = "imageURL")
+	@Column(name = "image_URL")
 	private String imageURL;
 	@Column(name = "price")
 	private double price;
@@ -24,7 +28,7 @@ public class Product {
 	private String description;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "category_id", referencedColumnName = "id")
+	@JoinColumn(name = "category_Id", referencedColumnName = "category_Id")
 	private  Category category;
 
 	public Product(ProductRequest productRequest, Category category) {
@@ -34,7 +38,7 @@ public class Product {
 		this.price = productRequest.getPrice();
 		this.category = category;
 	}
-public Product() {
-	
-}
+	public Product() {
+		log.info("Product Entity");
+	}
 }

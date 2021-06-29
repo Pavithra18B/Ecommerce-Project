@@ -10,6 +10,6 @@ import com.example.Project.BackendProject.Model.Category;
 public interface CategoryControllerInter {
 	public ResponseEntity<List<Category>> getCategories();
 	public ResponseEntity<ApiResponse> createCategory( Category category);
-	public ResponseEntity<ApiResponse> updateCategory( long categoryID,Category category);
-	
+	public ResponseEntity<ApiResponse> updateCategory( long categoryId,Category category);
+
 }
