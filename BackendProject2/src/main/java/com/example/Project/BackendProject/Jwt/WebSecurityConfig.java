@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -16,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 
 @Configuration
 @EnableWebSecurity
@@ -44,10 +44,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        httpSecurity.csrf().disable()
 	                .authorizeRequests().antMatchers("/authenticate", "/adduser").permitAll()
 	               
-	                //  .antMatchers("/v2/**").permitAll()
-	              //  .antMatchers("/swagger-ui.html").permitAll()
-	              //  .antMatchers("/webjars/**").permitAll()
-	              //  .antMatchers("/swagger-resources/**").permitAll()
+	                  .antMatchers("/v2/**").permitAll()
+	               .antMatchers("/swagger-ui.html").permitAll()
+	               .antMatchers("/webjars/**").permitAll()
+	               .antMatchers("/swagger-resources/**").permitAll()
 
 	               //.authorizeRequests().antMatchers("/admin/**").hasRole("admin").antMatchers("/user/**").hasRole("user")
 	               	//.antMatchers("/**").permitAll()
@@ -60,13 +60,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	    }
-	 @Override
-		public void configure(WebSecurity registry) throws Exception {
-			registry.ignoring()
-			.antMatchers("/docs/**").antMatchers("/actuator/**").antMatchers("/v2/api-docs", "/configuration/ui",
-					"/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/**");
-		}
 
+		/*
+		 * @Override public void configure(WebSecurity registry) throws Exception {
+		 * registry.ignoring()
+		 * .antMatchers("/docs/**").antMatchers("/actuator/**").antMatchers(
+		 * "/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
+		 * "/configuration/security", "/swagger-ui.html", "/webjars/**"); }
+		 */
 	 @Bean
 	    public PasswordEncoder passwordEncoder() {
 	        return new BCryptPasswordEncoder();

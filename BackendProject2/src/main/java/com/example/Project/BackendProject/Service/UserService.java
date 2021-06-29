@@ -6,10 +6,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.example.Project.BackendProject.Dto.UserRequest;
 import com.example.Project.BackendProject.Model.Role;
@@ -31,25 +36,15 @@ public class UserService implements UserServIntr {
 	@Autowired
 	private PasswordEncoder passEncode;
 
-
-	
-	/*
-	 * public void UserRole() { Role holderrole = new Role();
-	 * holderrole.setRole_name("Holder");
-	 * holderrole.setRole_description("defualt role for new user");
-	 * roleRepo.save(holderrole);
-	 * 
-	 * }
-	 */
-	 
+	Logger logger = LoggerFactory.getLogger(UserService.class);
+ 
 
 	public String getEncodedPass(String user_password) {
 	return passEncode.encode(user_password);
 	
 	}
-
-
-	public User addUser(UserRequest userRequest) {
+	
+    	public User addUser(UserRequest userRequest) {
 		User user = new User();
 		Set<Role> roles = new HashSet<>();
 		System.out.println(user.toString());
@@ -85,11 +80,10 @@ public class UserService implements UserServIntr {
 		return userRepo.findById(id).get();
 	}
 
-	/*
-	 * @Override public User save(UserRequest user) { User newUser = new User();
-	 * newUser.setUser_name(user.getUser_name());
-	 * newUser.setPass_word(bcryptEncoder.encode(user.getUser_password()));
-	 * //newUser.setAge(user.getAge()); newUser.setSalary(user.getSalary()); return
-	 * userRepo.save(newUser); }
-	 */
-}
+	@Override
+	public Page<User> getUser(Pageable page) {
+		logger.info("Page", page);
+		Page<User> user = userRepo.findAll(page);
+		logger.info("User", user);
+		return userRepo.findAll(page);
+	}}

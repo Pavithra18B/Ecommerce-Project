@@ -58,4 +58,6 @@ public class ProductController implements ProductControllerInter {
         productService.updateProduct(productid, productRequest, category);
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Product has been updated"), HttpStatus.OK);
     }
+	 
+	 
 }

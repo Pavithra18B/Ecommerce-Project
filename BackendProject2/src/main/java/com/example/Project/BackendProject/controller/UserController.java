@@ -2,8 +2,14 @@ package com.example.Project.BackendProject.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,20 +23,18 @@ import com.example.Project.BackendProject.Service.UserService;
 import com.example.Project.BackendProject.controllerInterface.UserContIntrf;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 @RestController
 public class UserController implements UserContIntrf {
 	@Autowired
 	private UserService userService;
 
-	/*
-	 * @PostConstruct public void UserRole() {
-	 * System.out.println("set default user function "); userService.UserRole();
-	 * 
-	 * }
-	 */
+	Logger logger = LoggerFactory.getLogger(UserController.class);
+	
 
 	@Override
 	@PostMapping("/adduser")
+	//@ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
 	@ApiOperation(value = "add user")
 	public User addUser(@RequestBody UserRequest userRequest) {
 
@@ -40,13 +44,12 @@ public class UserController implements UserContIntrf {
 	
     @PreAuthorize("hasRole('admin')")
     @RequestMapping(value="/user", method = RequestMethod.GET)
-    @ApiOperation(value = "list of users with details")
+    @ApiOperation(value = "list of users with details",authorizations = { @Authorization(value="jwtToken") })
     public List listUser(){
         return userService.findAll();
     }
 
-    //@Secured("ROLE_USER")
-    //@PreAuthorize("hasRole('user')")
+    
     @PreAuthorize("hasAnyRole('customer', 'admin')")
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     @ApiOperation(value = "get user with details")
@@ -67,14 +70,10 @@ public class UserController implements UserContIntrf {
         return new User(id);
     }
 
-	/*
-	 * @DeleteMapping("/removeuser/{user_id}")
-	 * 
-	 * @PreAuthorize("hasRole('admin')") public void
-	 * delUser(@PathVariable("user_id") Long user_id) {
-	 * userService.delUser(user_id);
-	 * 
-	 * }
-	 */
-
+    @GetMapping("/viewpage")
+    Page<User> getUser (@PageableDefault(sort= {"userId"}) final Pageable page){
+    	logger.info("display all users");
+		return userService.getUser(page);
+    	
+            }
 }
