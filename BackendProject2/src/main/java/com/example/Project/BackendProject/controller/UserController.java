@@ -43,7 +43,7 @@ public class UserController implements UserContIntrf {
 		log.info(" list of Users");
 		return userService.findAll();
 	}
-	@PreAuthorize("hasAnyRole('customer', 'admin')")
+	@PreAuthorize("hasAnyRole('user', 'admin')")
     @RequestMapping(value = "/user/{user_id}", method = RequestMethod.GET)
     @ApiOperation(value = "get user with details")
     public User getOne(@PathVariable(value = "user_id") int userId){

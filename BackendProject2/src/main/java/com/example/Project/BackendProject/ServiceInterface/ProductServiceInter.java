@@ -1,16 +1,21 @@
 package com.example.Project.BackendProject.ServiceInterface;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.example.Project.BackendProject.Dto.ProductRequest;
-import com.example.Project.BackendProject.Model.Category;
 import com.example.Project.BackendProject.Model.Product;
 
 public interface ProductServiceInter {
-	public List<ProductRequest> listProducts();
-	public  ProductRequest getDtoFromProduct(Product product);
-	public Product getProductFromDto(ProductRequest productRequest, Category category);
-	public void addProduct(ProductRequest productRequest, Category category);
-	public void updateProduct(long productId, ProductRequest productRequest, Category category);
-
+	List<Product> listProducts();
+	Page<Product> getProducts(Pageable page);
+	Product addProduct(ProductRequest productRequest) throws Exception;
+	public Product updateProduct(Long productId, ProductRequest productRequest)throws Exception;
+	void deleteAllProducts();
+	Product findById(Long productId);
+	void delete(Long productId);
+	
 }

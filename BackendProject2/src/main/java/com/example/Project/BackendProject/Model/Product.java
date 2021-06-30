@@ -16,29 +16,26 @@ import lombok.extern.slf4j.Slf4j;
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "product_Id")
+	@Column(name = "product_id")
 	private Long productId;
 	@Column(name = "name")
 	private String name;
-	@Column(name = "image_URL")
-	private String imageURL;
+	@Column(name = "product_imageurl")
+	private String productImageurl;
 	@Column(name = "price")
 	private double price;
 	@Column(name = "description")
 	private String description;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "category_Id", referencedColumnName = "category_Id")
+	@JoinColumn(name = "productcat_id", referencedColumnName = "category_id")
 	private  Category category;
 
-	public Product(ProductRequest productRequest, Category category) {
-		this.name = productRequest.getName();
-		this.imageURL = productRequest.getImageURL();
-		this.description = productRequest.getDescription();
-		this.price = productRequest.getPrice();
-		this.category = category;
-	}
 	public Product() {
 		log.info("Product Entity");
+	}
+
+	public Product(Long productId) {
+		
 	}
 }

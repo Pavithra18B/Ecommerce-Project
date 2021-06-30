@@ -1,13 +1,22 @@
 package com.example.Project.BackendProject.ServiceInterface;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.example.Project.BackendProject.Dto.CategoryRequest;
+import com.example.Project.BackendProject.Dto.ProductRequest;
 import com.example.Project.BackendProject.Model.Category;
+import com.example.Project.BackendProject.Model.Product;
 
 public interface CategoryServiceInter {
-	public Iterable<Category> listCategories();
-	public void createCategory(Category category);
-	public Category readCategory(String categoryName);
-	public Optional<Category> readCategory(Long categoryId);
-	public void updateCategory(Long categoryId, Category newCategory);
-}
+	List<Category> listCategories();
+	Page<Category> getCategories(Pageable page);
+	Category addCategory(CategoryRequest categoryRequest) throws Exception;
+	Category updateCategory(Long categoryId, CategoryRequest categoryRequest) throws Exception;
+	Category findById(Long categoryId);
+	void delete(Long categoryId);
+	void deleteAllCategories();
+	}

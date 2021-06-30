@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		log.info("permiting and authenticating (web security config)");
 		httpSecurity.cors();
 		httpSecurity.csrf().disable()
-		.authorizeRequests().antMatchers("/authenticate", "/adduser").permitAll()
+		.authorizeRequests().antMatchers("/authenticate","/adduser").permitAll()
 
 		.antMatchers("/v2/**").permitAll()
 		.antMatchers("/swagger-ui.html").permitAll()

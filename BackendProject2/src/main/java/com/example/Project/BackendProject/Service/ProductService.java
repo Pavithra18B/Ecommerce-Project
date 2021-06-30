@@ -2,6 +2,7 @@ package com.example.Project.BackendProject.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.example.Project.BackendProject.Dto.ProductRequest;
 import com.example.Project.BackendProject.Model.Category;
 import com.example.Project.BackendProject.Model.Product;
+import com.example.Project.BackendProject.Model.User;
+import com.example.Project.BackendProject.Repository.CategoryRepo;
 import com.example.Project.BackendProject.Repository.ProductRepo;
 import com.example.Project.BackendProject.ServiceInterface.ProductServiceInter;
 
@@ -20,42 +23,15 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductService implements ProductServiceInter {
 	@Autowired
 	private ProductRepo productRepo;
-	
-	
-    /* PRODUCT */
-    public List<ProductRequest> listProducts() {
-    	log.info("Service method list products  called");
-        Iterable<Product> products = productRepo.findAll();
-        List<ProductRequest> productRequests = new ArrayList<>();
-        for(Product product : products) {
-        	ProductRequest productRequest = getDtoFromProduct(product);
-        	productRequests.add(productRequest);
-        }
-        return productRequests;
-    }
+	@Autowired
+	private CategoryRepo categoryRepo;
 
-    public  ProductRequest getDtoFromProduct(Product product) {
-    	ProductRequest productRequest = new ProductRequest(product);
-        return productRequest;
-    }
-
-    public Product getProductFromDto(ProductRequest productRequest, Category category) {
-        Product product = new Product(productRequest, category);
-        return product;
-    }
-
-    public void addProduct(ProductRequest productRequest, Category category) {
-    	log.info("Service method add product  called");
-        Product product = getProductFromDto(productRequest, category);
-        productRepo.save(product);
-    }
-
-    public void updateProduct(long productId, ProductRequest productRequest, Category category) {
-    	log.info("Service method update Product  called");
-        Product product = getProductFromDto(productRequest, category);
-        product.setProductId(productId);
-        productRepo.save(product);
-    }
+	/* PRODUCT */
+	@Override
+	public List<Product> listProducts() {
+		log.info("Service method list Category  called");
+		return (List<Product>) productRepo.findAll();
+	}
 
 	public Page<Product> getProducts(Pageable page) {
 		log.info("Page", page);
@@ -63,6 +39,65 @@ public class ProductService implements ProductServiceInter {
 		log.info("Product", product);
 		return productRepo.findAll(page);
 	}
+	@Override
+	public Product addProduct(ProductRequest productRequest) throws Exception {
 
-	
+		Product product = new Product();
+		log.info(product.toString());
+		product.setName(productRequest.getName());
+		product.setDescription(productRequest.getDescription());
+		product.setPrice(productRequest.getPrice());
+		product.setProductImageurl(productRequest.getProductImageurl());
+
+		Optional<Category> category = categoryRepo.findById(productRequest.getProductcat_id());
+		if (!category.isPresent()) {
+			throw new Exception("Category id not found");
+		} else {
+			product.setCategory(category.get());
+		}
+
+		return productRepo.save(product);
+	}
+	@Override
+	public Product updateProduct(Long productId, ProductRequest productRequest)throws Exception {
+		log.info("Upadte Product service method");
+		Product product = new Product();
+		Optional<Product> prod =  productRepo.findById(productId);
+		if (!prod.isPresent()) {
+			throw new Exception("Could not find product with id- " + prod);
+		}else {
+
+			product.setName(productRequest.getName());
+			product.setProductImageurl(productRequest.getProductImageurl());
+			product.setPrice(productRequest.getPrice());
+			product.setDescription(productRequest.getDescription());
+			Optional<Category> category = categoryRepo.findById(productRequest.getProductcat_id());
+			if(!category.isPresent()) {
+				throw new Exception("category id not found");
+			}else {
+				product.setCategory(category.get());
+			}
+
+			product.setProductId(productId);
+
+		}
+		return productRepo.save(product);
+	}
+
+	@Override
+	public Product findById(Long productId) {
+		return productRepo.findById(productId).get();
+	}
+
+	@Override
+	public void delete(Long productId) {
+		productRepo.deleteById(productId);
+	}
+
+
+	@Override
+	public void deleteAllProducts() {
+		productRepo.deleteAll();
+	}
+
 }

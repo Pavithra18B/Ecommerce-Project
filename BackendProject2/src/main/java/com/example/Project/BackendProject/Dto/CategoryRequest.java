@@ -1,5 +1,6 @@
 package com.example.Project.BackendProject.Dto;
 
+import com.example.Project.BackendProject.Model.Category;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductRequest {
-	private  String name;
-	private String productImageurl;
-	private  double price;
+public class CategoryRequest {
+	private  String categoryName;
 	private  String description;
-	private  Long productcat_id;
+	private  String imageUrl;
+	
+	
 }
