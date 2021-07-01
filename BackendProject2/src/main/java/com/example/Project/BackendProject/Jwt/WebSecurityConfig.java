@@ -17,10 +17,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true) //use for role base ath
+@EnableGlobalMethodSecurity(prePostEnabled = true) // use for role base ath
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -41,22 +42,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		log.info("permiting and authenticating (web security config)");
 		httpSecurity.cors();
-		httpSecurity.csrf().disable()
-		.authorizeRequests().antMatchers("/authenticate","/adduser").permitAll()
+		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/authenticate", "/adduser").permitAll()
 
-		.antMatchers("/v2/**").permitAll()
-		.antMatchers("/swagger-ui.html").permitAll()
-		.antMatchers("/webjars/**").permitAll()
-		.antMatchers("/swagger-resources/**").permitAll()
+				.antMatchers("/v2/**").permitAll().antMatchers("/swagger-ui.html").permitAll()
+				.antMatchers("/webjars/**").permitAll().antMatchers("/swagger-resources/**").permitAll()
 
-		//.authorizeRequests().antMatchers("/admin/**").hasRole("admin").antMatchers("/user/**").hasRole("user")
-		//.antMatchers("/**").permitAll()
-		.anyRequest().authenticated()
-		.and()
-		.exceptionHandling().authenticationEntryPoint(jwtAuthEntry)
-		.and()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)         
-		;
+				// .authorizeRequests().antMatchers("/admin/**").hasRole("admin").antMatchers("/user/**").hasRole("user")
+				// .antMatchers("/**").permitAll()
+				.anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthEntry).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}

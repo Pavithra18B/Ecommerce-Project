@@ -1,9 +1,6 @@
 package com.example.Project.BackendProject.Model;
 
 import javax.persistence.*;
-
-import com.example.Project.BackendProject.Dto.ProductRequest;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -29,13 +26,13 @@ public class Product {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "productcat_id", referencedColumnName = "category_id")
-	private  Category category;
+	private Category category;
 
 	public Product() {
 		log.info("Product Entity");
 	}
 
 	public Product(Long productId) {
-		
+
 	}
 }

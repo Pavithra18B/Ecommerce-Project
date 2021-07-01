@@ -9,25 +9,26 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.Project.BackendProject.Dto.CategoryRequest;
-import com.example.Project.BackendProject.Dto.ProductRequest;
 import com.example.Project.BackendProject.Model.Category;
-import com.example.Project.BackendProject.Model.Product;
 import com.example.Project.BackendProject.Repository.CategoryRepo;
 import com.example.Project.BackendProject.ServiceInterface.CategoryServiceInter;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Service
-public class CategoryService implements CategoryServiceInter{
+public class CategoryService implements CategoryServiceInter {
 	@Autowired
-	private  CategoryRepo categoryRepo;
+	private CategoryRepo categoryRepo;
 
+//List of categories
 	@Override
 	public List<Category> listCategories() {
 		log.info("Service method list Category  called");
 		return (List<Category>) categoryRepo.findAll();
 	}
 
+//pagination
 	public Page<Category> getCategories(Pageable page) {
 		log.info("Page", page);
 		Page<Category> category = categoryRepo.findAll(page);
@@ -35,6 +36,8 @@ public class CategoryService implements CategoryServiceInter{
 		return categoryRepo.findAll(page);
 
 	}
+
+//add category
 	@Override
 	public Category addCategory(CategoryRequest categoryRequest) throws Exception {
 
@@ -46,14 +49,16 @@ public class CategoryService implements CategoryServiceInter{
 
 		return categoryRepo.save(category);
 	}
+
+//Update category
 	@Override
-	public Category updateCategory(Long categoryId, CategoryRequest categoryRequest)throws Exception {
+	public Category updateCategory(Long categoryId, CategoryRequest categoryRequest) throws Exception {
 		log.info("Upadte Category service method");
 		Category category = new Category();
-		Optional<Category> categories =  categoryRepo.findById(categoryId);
+		Optional<Category> categories = categoryRepo.findById(categoryId);
 		if (!categories.isPresent()) {
 			throw new Exception("Could not find product with id- " + categories);
-		}else {
+		} else {
 
 			category.setCategoryName(categoryRequest.getCategoryName());
 			category.setDescription(categoryRequest.getDescription());
@@ -62,30 +67,25 @@ public class CategoryService implements CategoryServiceInter{
 		}
 		category.setCategoryId(categoryId);
 
-	return categoryRepo.save(category);
-}
+		return categoryRepo.save(category);
+	}
 
-@Override
-public Category findById(Long categoryId) {
-	return categoryRepo.findById(categoryId).get();
-}
-@Override
-public void delete(Long categoryId) {
-	categoryRepo.deleteById(categoryId);
-}
+//find category by Id
+	@Override
+	public Category findById(Long categoryId) {
+		return categoryRepo.findById(categoryId).get();
+	}
 
+//delete Category by Id
+	@Override
+	public void delete(Long categoryId) {
+		categoryRepo.deleteById(categoryId);
+	}
 
-@Override
-public void deleteAllCategories() {
-	categoryRepo.deleteAll();
-}
-
-
-/* public void updateCategory(long categoryId, CategoryRequest
- * newcategoryRequest) { log.info("Service method update Category  called");
- * Category category = getCategoryFromDto(newcategoryRequest);
- * category.setCategoryId(categoryId); categoryRepo.save(category); }
- */
-
+//delete all
+	@Override
+	public void deleteAllCategories() {
+		categoryRepo.deleteAll();
+	}
 
 }

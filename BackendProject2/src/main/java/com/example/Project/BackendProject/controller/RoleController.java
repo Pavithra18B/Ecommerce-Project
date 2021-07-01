@@ -12,9 +12,10 @@ import com.example.Project.BackendProject.Service.RoleService;
 import com.example.Project.BackendProject.controllerInterface.RoleControIntr;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @RestController
-public class RoleController implements RoleControIntr{
+public class RoleController implements RoleControIntr {
 	@Autowired
 	private RoleService roleService;
 

@@ -10,12 +10,13 @@ import com.example.Project.BackendProject.JwtDto.JwtResponse;
 import com.example.Project.BackendProject.Service.JwtService;
 
 import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @Slf4j
 public class JwtController {
 	@Autowired
 	private JwtService jwtService;
-	
+
 	public JwtController() {
 		log.info("Jwt auth");
 	}

@@ -21,10 +21,8 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "role_id")
 	private int roleId;
-
 	@Column(name = "role_name")
 	private String roleName;
-
 	@Column(name = "role_description")
 	private String roleDescription;
 

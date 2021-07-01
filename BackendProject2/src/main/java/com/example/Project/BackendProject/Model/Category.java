@@ -1,10 +1,6 @@
 package com.example.Project.BackendProject.Model;
 
-
 import javax.persistence.*;
-
-import com.example.Project.BackendProject.Dto.CategoryRequest;
-import com.example.Project.BackendProject.Dto.ProductRequest;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,20 +17,19 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "category_id")
 	private Long categoryId;
-
 	@Column(name = "category_name")
-	private  String categoryName;
+	private String categoryName;
 	@Column(name = "description")
-	private  String description;
+	private String description;
 	@Column(name = "image_url")
-	private  String imageUrl;
+	private String imageUrl;
 
 	public Category() {
 		log.info("category Entity");
 	}
 
 	public Category(Long categoryId) {
-		
-	}	
-	
+
+	}
+
 }

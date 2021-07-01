@@ -21,9 +21,10 @@ import com.example.Project.BackendProject.Model.User;
 import com.example.Project.BackendProject.Repository.UserRepo;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Service
-public class JwtService implements UserDetailsService{
+public class JwtService implements UserDetailsService {
 	@Autowired
 	private JwtUtil jwtUtil;
 
@@ -38,27 +39,27 @@ public class JwtService implements UserDetailsService{
 	public JwtResponse createJwtToken(JwtRequest jwtRequest) throws Exception {
 		log.info("getting user name (jwt service)");
 
-		String user_name = jwtRequest.getUser_name();
-		String user_password = jwtRequest.getUser_password();
-		User user = userRepo.findByUserName(user_name);
+		String userName = jwtRequest.getUser_name();
+		String userPassword = jwtRequest.getUser_password();
+		User user = userRepo.findByUserName(userName);
 		log.info(user.toString());
-		String newGeneratedToken = jwtUtil.generateToken(user_name);
+		String newGeneratedToken = jwtUtil.generateToken(userName);
 		return new JwtResponse(user, newGeneratedToken);
 
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String user_name) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 
 		log.info("able to find (jwt Service class)");
 
-		User user = userRepo.findByUserName(user_name);
+		User user = userRepo.findByUserName(userName);
 
 		if (user != null) {
-			return new org.springframework.security.core.userdetails.User(user.getUser_name(), user.getUser_password(),
+			return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getUserPassword(),
 					getAuthority(user));
 		} else {
-			throw new UsernameNotFoundException("User not found with username: " + user_name);
+			throw new UsernameNotFoundException("User not found with username: " + userName);
 		}
 
 	}
@@ -73,11 +74,11 @@ public class JwtService implements UserDetailsService{
 		return authorities;
 	}
 
-	private void authenticate(String user_name, String user_password) throws Exception {
+	private void authenticate(String userName, String userPassword) throws Exception {
 
 		log.info("credentail exceptions");
 		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user_name, user_password));
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, userPassword));
 		} catch (DisabledException e) {
 			throw new Exception("USER_DISABLED", e);
 		} catch (BadCredentialsException e) {

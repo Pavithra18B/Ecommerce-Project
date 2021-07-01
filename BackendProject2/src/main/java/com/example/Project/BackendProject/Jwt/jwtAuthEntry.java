@@ -9,6 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Component
 public class jwtAuthEntry implements AuthenticationEntryPoint {
@@ -19,8 +20,7 @@ public class jwtAuthEntry implements AuthenticationEntryPoint {
 
 		log.info("io exception unuth(entry)");
 
-		response.sendError(HttpServletResponse.SC_UNAUTHORIZED,  "Unautherised");
+		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unautherised");
 	}
-
 
 }

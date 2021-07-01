@@ -1,6 +1,5 @@
 package com.example.Project.BackendProject.Service;
 
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -20,15 +19,15 @@ import com.example.Project.BackendProject.Repository.UserRepo;
 import com.example.Project.BackendProject.ServiceInterface.UserServIntr;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Service
 public class UserService implements UserServIntr {
 
-
 	@Autowired
 	private UserRepo userRepo;
 
-	@Autowired 
+	@Autowired
 	private RoleRepo roleRepo;
 
 	@Autowired
@@ -39,49 +38,56 @@ public class UserService implements UserServIntr {
 
 	}
 
-	public User addUser(UserRequest userRequest) {
-		log.info("Service method to add user called");
-		User user = new User();
-		Set<Role> roles = new HashSet<>();
-		System.out.println(user.toString());
-		user.setUser_name(userRequest.getUser_name() );
-		user.setFirst_name(userRequest.getFirst_name());
-		user.setLast_name(userRequest.getLast_name());
-		user.setEmail_id(userRequest.getEmail_id());
-		user.setUser_password(getEncodedPass(userRequest.getUser_password()));
-		for(Integer roleId: userRequest.getRole()) {
-			Optional<Role> role = roleRepo.findById(roleId);
-			if(!role.isPresent()) {		
-			}else {
-				roles.add(role.get());
-			}
-		}
-		user.setRole(roles);
-		return userRepo.save(user);
-	}
+	// list of users
+	@Override
 	public List findAll() {
 		log.info("Service method List of user called");
 		List list = new ArrayList<>();
 		userRepo.findAll().iterator().forEachRemaining(list::add);
 		return list;
 	}
-	@Override
-	public void delete(int userId) {
-		userRepo.deleteById(userId);
-	}
 
-
-	@Override
-	public User findById(int userId) {
-		return userRepo.findById(userId).get();
-	}
-
+	// pagination
 	@Override
 	public Page<User> getUser(Pageable page) {
 		log.info("Page", page);
 		Page<User> user = userRepo.findAll(page);
 		log.info("User", user);
 		return userRepo.findAll(page);
+	}
+
+//add user
+	public User addUser(UserRequest userRequest) {
+		log.info("Service method to add user called");
+		User user = new User();
+		Set<Role> roles = new HashSet<>();
+		System.out.println(user.toString());
+		user.setUserName(userRequest.getUserName());
+		user.setFirstName(userRequest.getFirstName());
+		user.setLastName(userRequest.getLastName());
+		user.setEmailId(userRequest.getEmailId());
+		user.setUserPassword(getEncodedPass(userRequest.getUserPassword()));
+		for (Integer roleId : userRequest.getRole()) {
+			Optional<Role> role = roleRepo.findById(roleId);
+			if (!role.isPresent()) {
+			} else {
+				roles.add(role.get());
+			}
+		}
+		user.setRole(roles);
+		return userRepo.save(user);
+	}
+
+//delete user by Id
+	@Override
+	public void delete(int userId) {
+		userRepo.deleteById(userId);
+	}
+
+//find user by Id
+	@Override
+	public User findById(int userId) {
+		return userRepo.findById(userId).get();
 	}
 
 }

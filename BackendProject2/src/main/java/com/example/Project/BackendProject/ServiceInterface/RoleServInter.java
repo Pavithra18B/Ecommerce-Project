@@ -5,5 +5,4 @@ import com.example.Project.BackendProject.Model.Role;
 
 public interface RoleServInter {
 	public Role addRole(RoleRequest roleRequest);
-
 }

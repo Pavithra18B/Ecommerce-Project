@@ -33,11 +33,12 @@ public class ProductController implements ProductControllerInter {
 	@PreAuthorize("hasAnyRole('user', 'admin')")
 	@GetMapping("/viewpage/products")
 	@ApiOperation(value = "pagination and sorting by id")
-	Page<Product> getProducts (@PageableDefault(sort= {"productId"}) final Pageable page){
+	Page<Product> getProducts(@PageableDefault(sort = { "productId" }) final Pageable page) {
 		log.info("Display  all products by id ");
 		return productService.getProducts(page);
 
 	}
+
 	@PreAuthorize("hasAnyRole('user', 'admin')")
 	@GetMapping("/list")
 	@ApiOperation(value = "list of product")
@@ -51,31 +52,32 @@ public class ProductController implements ProductControllerInter {
 	@PreAuthorize("hasRole('admin')")
 	@ApiOperation(value = "create product")
 	public Product createProduct(@RequestBody ProductRequest productRequest) throws Exception {
-		log.info(this.getClass().getSimpleName() +" - Create new product method is invoked ");
+		log.info(this.getClass().getSimpleName() + " - Create new product method is invoked ");
 		return productService.addProduct(productRequest);
 	}
 
 	@PreAuthorize("hasRole('admin')")
 	@PostMapping("/update/{product_id}")
 	@ApiOperation(value = "Update product")
-	public Product updateProduct(@PathVariable("product_id")Long productId,@RequestBody ProductRequest productRequest) throws Exception {
+	public Product updateProduct(@PathVariable("product_id") Long productId, @RequestBody ProductRequest productRequest)
+			throws Exception {
 		log.info("update Product  details");
-		return productService.updateProduct(productId,productRequest);
+		return productService.updateProduct(productId, productRequest);
 	}
 
 	@PreAuthorize("hasRole('admin')")
 	@GetMapping(value = "/product/{product_id}")
 	@ApiOperation(value = "get product with details by id")
-	public Product getOne(@PathVariable(value = "product_id") Long productId){
+	public Product getOne(@PathVariable(value = "product_id") Long productId) {
 		return productService.findById(productId);
 	}
 
 	@PreAuthorize("hasRole('admin')")
-	@RequestMapping(value="/delete/{product_id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{product_id}", method = RequestMethod.DELETE)
 	@ApiOperation(value = "delete product details by id")
-	public Product deleteProduct(@PathVariable(value = "product_id") Long productId){
-		productService.delete( productId);
-		return new Product( productId);
+	public Product deleteProduct(@PathVariable(value = "product_id") Long productId) {
+		productService.delete(productId);
+		return new Product(productId);
 	}
 
 }

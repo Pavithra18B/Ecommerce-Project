@@ -32,10 +32,10 @@ public class JwtUtil {
 		return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
 	}
 
-	//matching username
+	// matching username
 	public Boolean validateToken(String token, UserDetails userDetails) {
-		final String user_name = getUsernameFromToken(token);
-		return (user_name.equals(userDetails.getUsername()) && !isTokenExpired(token));
+		final String userName = getUsernameFromToken(token);
+		return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
 
 	private Boolean isTokenExpired(String token) {
@@ -51,12 +51,8 @@ public class JwtUtil {
 
 		Map<String, Object> claims = new HashMap<>();
 
-		return Jwts.builder()
-				.setClaims(claims)
-				.setSubject(user)
-				.setIssuedAt(new Date(System.currentTimeMillis()))
+		return Jwts.builder().setClaims(claims).setSubject(user).setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 1000))
-				.signWith(SignatureAlgorithm.HS512, SECRET_KEY)
-				.compact();
+				.signWith(SignatureAlgorithm.HS512, SECRET_KEY).compact();
 	}
 }

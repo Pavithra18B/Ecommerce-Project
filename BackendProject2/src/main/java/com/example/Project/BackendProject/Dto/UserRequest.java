@@ -9,15 +9,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRequest {
-	private String user_name;
+	private String userName;
 
-	private String first_name;
+	private String firstName;
 
-	private String last_name;
+	private String lastName;
 
-	private String user_password;
+	private String userPassword;
 
-	private String email_id;
+	private String emailId;
 
 	private Set<Integer> role;
 

@@ -5,4 +5,5 @@ import com.example.Project.BackendProject.Model.Role;
 
 public interface RoleControIntr {
 	public Role addRole(RoleRequest roleRequest);
+
 }

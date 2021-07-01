@@ -17,7 +17,7 @@ public class RoleService implements RoleServInter {
 
 	@Autowired
 	private RoleRepo roleRepo;
-	
+//add Role
 	public Role addRole(RoleRequest roleRequest) {
 
 		Role role = new Role();
@@ -28,5 +28,4 @@ public class RoleService implements RoleServInter {
 		return roleRepo.save(role);
 	}
 
-	
 }

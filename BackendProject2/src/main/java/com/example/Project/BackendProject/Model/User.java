@@ -18,32 +18,20 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "user_id")
 	private int userId;
-
 	@Column(name = "user_name")
-	private String user_name;
-
+	private String userName;
 	@Column(name = "first_name")
-	private String first_name;
-
+	private String firstName;
 	@Column(name = "last_name")
-	private String last_name;
-
+	private String lastName;
 	@Column(name = "user_password")
-	private String user_password;
-
+	private String userPassword;
 	@Column(name = "email_id")
-	private String email_id;
-
+	private String emailId;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "USER_ROLE",
-	joinColumns = {
-			@JoinColumn(name="USER_ID")
-	},
-	inverseJoinColumns = {
-			@JoinColumn(name = "ROLE_ID")
-	}
-			)
+	@JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
+			@JoinColumn(name = "ROLE_ID") })
 	private Set<Role> role;
 
 	public User() {
@@ -51,8 +39,6 @@ public class User {
 	}
 
 	public User(int id) {
-		// TODO Auto-generated constructor stub
 	}
-
 
 }

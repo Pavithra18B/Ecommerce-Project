@@ -21,6 +21,7 @@ import com.example.Project.BackendProject.controllerInterface.UserContIntrf;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @RestController
 public class UserController implements UserContIntrf {
@@ -36,38 +37,34 @@ public class UserController implements UserContIntrf {
 		return userService.addUser(userRequest);
 	}
 
+	@GetMapping("/viewpage")
+	Page<User> getUser(@PageableDefault(sort = { "userId" }) final Pageable page) {
+		log.info("display all users");
+		return userService.getUser(page);
+
+	}
+
 	@PreAuthorize("hasRole('admin')")
-	@RequestMapping(value="/user", method = RequestMethod.GET)
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
 	@ApiOperation(value = "list of users with details")
-	public List listUser(){
+	public List listUser() {
 		log.info(" list of Users");
 		return userService.findAll();
 	}
+
 	@PreAuthorize("hasAnyRole('user', 'admin')")
-    @RequestMapping(value = "/user/{user_id}", method = RequestMethod.GET)
-    @ApiOperation(value = "get user with details")
-    public User getOne(@PathVariable(value = "user_id") int userId){
-        return userService.findById(userId);
-    }
+	@RequestMapping(value = "/user/{user_id}", method = RequestMethod.GET)
+	@ApiOperation(value = "get user with details")
+	public User getOne(@PathVariable(value = "user_id") int userId) {
+		return userService.findById(userId);
+	}
 
-	/*
-	 * @RequestMapping(value="/signup", method = RequestMethod.POST) public User
-	 * create(@RequestBody UserRequest userRequest){ return
-	 * userService.save(userRequest); }
-	 */
-    @PreAuthorize("hasRole('admin')")
-    @RequestMapping(value="/user/{user_id}", method = RequestMethod.DELETE)
-    @ApiOperation(value = "delete users details")
-    public User deleteUser(@PathVariable(value = "user_id") int userId){
-        userService.delete(userId);
-        return new User(userId);
-    }
-
-    @GetMapping("/viewpage")
-    Page<User> getUser (@PageableDefault(sort= {"userId"}) final Pageable page){
-    	log.info("display all users");
-		return userService.getUser(page);
-    	
-            }
+	@PreAuthorize("hasRole('admin')")
+	@RequestMapping(value = "/user/{user_id}", method = RequestMethod.DELETE)
+	@ApiOperation(value = "delete users details")
+	public User deleteUser(@PathVariable(value = "user_id") int userId) {
+		userService.delete(userId);
+		return new User(userId);
+	}
 
 }
