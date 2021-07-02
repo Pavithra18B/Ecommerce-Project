@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Project.BackendProject.Dto.ApiResponse;
-import com.example.Project.BackendProject.Dto.ProductRequest;
 import com.example.Project.BackendProject.Dto.UserRequest;
-import com.example.Project.BackendProject.Model.Product;
 import com.example.Project.BackendProject.Model.User;
 import com.example.Project.BackendProject.Service.UserService;
 import com.example.Project.BackendProject.controllerInterface.UserContIntrf;

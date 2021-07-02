@@ -65,11 +65,13 @@ public class ProductController implements ProductControllerInter {
 	public ResponseEntity<ApiResponse> getOne(@PathVariable(value = "product_id") Long productId) {
 		try {
 			Product product = productService.findById(productId);
-			return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Product with the given Productid is available "), HttpStatus.OK);
+			return new ResponseEntity<ApiResponse>(
+					new ApiResponse(true, "Product with the given Productid is available "), HttpStatus.OK);
 		} catch (NoSuchElementException e) {
 			return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Productid is invalid"), HttpStatus.CONFLICT);
 		}
 	}
+
 	@PreAuthorize("hasRole('admin')")
 	@PostMapping("/update/{product_id}")
 	@ApiOperation(value = "Update product")

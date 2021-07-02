@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Project.BackendProject.Dto.ApiResponse;
 import com.example.Project.BackendProject.Dto.CategoryRequest;
-import com.example.Project.BackendProject.Dto.ProductRequest;
 import com.example.Project.BackendProject.Model.Category;
-import com.example.Project.BackendProject.Model.Product;
 import com.example.Project.BackendProject.Service.CategoryService;
 import com.example.Project.BackendProject.controllerInterface.CategoryControllerInter;
 
@@ -68,20 +66,14 @@ public class CategoryController implements CategoryControllerInter {
 	public ResponseEntity<ApiResponse> getOne(@PathVariable(value = "category_id") Long categoryId) {
 		try {
 			Category category = categoryService.findById(categoryId);
-			return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Category with the given categoryId is available "), HttpStatus.OK);
+			return new ResponseEntity<ApiResponse>(
+					new ApiResponse(true, "Category with the given categoryId is available "), HttpStatus.OK);
 		} catch (NoSuchElementException e) {
-			return new ResponseEntity<ApiResponse>(new ApiResponse(false, "categoryId is invalid"), HttpStatus.CONFLICT);
+			return new ResponseEntity<ApiResponse>(new ApiResponse(false, "categoryId is invalid"),
+					HttpStatus.CONFLICT);
 		}
 	}
 
-	@PreAuthorize("hasRole('admin')")
-	@RequestMapping(value = "/delete/{category_id}", method = RequestMethod.DELETE)
-	@ApiOperation(value = "delete category details by id")
-	public Category deleteCategory(@PathVariable(value = "category_id") Long categoryId) {
-		categoryService.delete(categoryId);
-		return new Category(categoryId);
-	}
-	
 	@PreAuthorize("hasRole('admin')")
 	@PostMapping("/update/{category_id}")
 	@ApiOperation(value = "Update category")
@@ -93,9 +85,17 @@ public class CategoryController implements CategoryControllerInter {
 			categoryService.updateCategory(categoryId, categoryRequest);
 			return new ResponseEntity<>(new ApiResponse(true, "category has been updated"), HttpStatus.OK);
 		} catch (NoSuchElementException e) {
-			return new ResponseEntity<ApiResponse>(new ApiResponse(false, "category does not exist"), HttpStatus.CONFLICT);
+			return new ResponseEntity<ApiResponse>(new ApiResponse(false, "category does not exist"),
+					HttpStatus.CONFLICT);
 		}
 	}
 
-	
+	@PreAuthorize("hasRole('admin')")
+	@RequestMapping(value = "/delete/{category_id}", method = RequestMethod.DELETE)
+	@ApiOperation(value = "delete category details by id")
+	public Category deleteCategory(@PathVariable(value = "category_id") Long categoryId) {
+		categoryService.delete(categoryId);
+		return new Category(categoryId);
+	}
+
 }

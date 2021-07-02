@@ -12,8 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.Project.BackendProject.Dto.UserRequest;
-import com.example.Project.BackendProject.Model.Category;
-import com.example.Project.BackendProject.Model.Product;
 import com.example.Project.BackendProject.Model.Role;
 import com.example.Project.BackendProject.Model.User;
 import com.example.Project.BackendProject.Repository.RoleRepo;
@@ -105,11 +103,10 @@ public class UserService implements UserServIntr {
 			user.setLastName(userRequest.getLastName());
 			user.setUserName(userRequest.getUserName());
 			user.setUserPassword(userRequest.getUserPassword());
-						}
+		}
 
 		user.setUserId(userId);
 		return userRepo.save(user);
 	}
-
 
 }

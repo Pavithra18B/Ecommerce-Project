@@ -14,7 +14,8 @@ public interface CategoryControllerInter {
 
 	Category createCategory(@RequestBody CategoryRequest categoryRequest) throws Exception;
 
-	ResponseEntity<ApiResponse> updateCategory(Long categoryId, @RequestBody CategoryRequest categoryRequest) throws Exception;
+	ResponseEntity<ApiResponse> updateCategory(Long categoryId, @RequestBody CategoryRequest categoryRequest)
+			throws Exception;
 
 	ResponseEntity<ApiResponse> getOne(Long categoryId);
 

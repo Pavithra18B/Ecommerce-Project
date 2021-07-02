@@ -27,7 +27,7 @@ public class CategoryService implements CategoryServiceInter {
 		log.info("Service method list Category  called");
 		return (List<Category>) categoryRepo.findAll();
 	}
-
+ 
 //pagination
 	public Page<Category> getCategories(Pageable page) {
 		log.info("Page", page);

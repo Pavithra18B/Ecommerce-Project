@@ -10,7 +10,7 @@ import com.example.Project.BackendProject.Model.User;
 
 public interface UserServIntr {
 	User addUser(UserRequest userRequest);
-
+ 
 	User findById(int userId);
 
 	Page<User> getUser(Pageable page);

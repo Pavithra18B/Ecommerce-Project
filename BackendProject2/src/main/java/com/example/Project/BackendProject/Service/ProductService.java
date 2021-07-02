@@ -31,7 +31,7 @@ public class ProductService implements ProductServiceInter {
 		log.info("Service method list Category  called");
 		return (List<Product>) productRepo.findAll();
 	}
-
+ 
 //pagination
 	public Page<Product> getProducts(Pageable page) {
 		log.info("Page", page);

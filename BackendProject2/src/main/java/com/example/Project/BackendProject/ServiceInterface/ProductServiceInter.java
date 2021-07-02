@@ -15,7 +15,7 @@ public interface ProductServiceInter {
 
 	Product addProduct(ProductRequest productRequest) throws Exception;
 
-	public Product updateProduct(Long productId, ProductRequest productRequest) throws Exception;
+	Product updateProduct(Long productId, ProductRequest productRequest) throws Exception;
 
 	void deleteAllProducts();
 

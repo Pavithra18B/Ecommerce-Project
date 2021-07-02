@@ -12,7 +12,7 @@ public interface UserContIntrf {
 	User addUser(UserRequest userRequest);
 
 	List listUser();
-
+ 
 	ResponseEntity<ApiResponse> getOne(int userId);
 
 	User deleteUser(int userId);

@@ -17,6 +17,6 @@ public interface ProductControllerInter {
 	ResponseEntity<?> updateProduct(Long productId, @RequestBody ProductRequest productRequest) throws Exception;
 
 	ResponseEntity<ApiResponse> getOne(Long productId);
-
+  
 	Product deleteProduct(Long productId);
 }
