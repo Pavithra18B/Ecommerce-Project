@@ -1,4 +1,4 @@
-package com.example.Project.BackendProject.JwtDto;
+package com.example.Project.BackendProject.Dto;
 
 import java.time.LocalDateTime;
 

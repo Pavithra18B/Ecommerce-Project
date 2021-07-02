@@ -1,6 +1,8 @@
 package com.example.Project.BackendProject.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Project.BackendProject.Dto.ApiResponse;
 import com.example.Project.BackendProject.Dto.ProductRequest;
 import com.example.Project.BackendProject.Model.Product;
 import com.example.Project.BackendProject.Service.ProductService;
@@ -57,19 +60,29 @@ public class ProductController implements ProductControllerInter {
 	}
 
 	@PreAuthorize("hasRole('admin')")
-	@PostMapping("/update/{product_id}")
-	@ApiOperation(value = "Update product")
-	public Product updateProduct(@PathVariable("product_id") Long productId, @RequestBody ProductRequest productRequest)
-			throws Exception {
-		log.info("update Product  details");
-		return productService.updateProduct(productId, productRequest);
-	}
-
-	@PreAuthorize("hasRole('admin')")
 	@GetMapping(value = "/product/{product_id}")
 	@ApiOperation(value = "get product with details by id")
-	public Product getOne(@PathVariable(value = "product_id") Long productId) {
-		return productService.findById(productId);
+	public ResponseEntity<ApiResponse> getOne(@PathVariable(value = "product_id") Long productId) {
+		try {
+			Product product = productService.findById(productId);
+			return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Product with the given Productid is available "), HttpStatus.OK);
+		} catch (NoSuchElementException e) {
+			return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Productid is invalid"), HttpStatus.CONFLICT);
+		}
+	}
+	@PreAuthorize("hasRole('admin')")
+	@PostMapping("/update/{product_id}")
+	@ApiOperation(value = "Update product")
+	public ResponseEntity<ApiResponse> updateProduct(@PathVariable("product_id") Long productId,
+			@RequestBody ProductRequest productRequest) throws Exception {
+		log.info("update Product  details");
+		try {
+			Product existProduct = productService.findById(productId);
+			productService.updateProduct(productId, productRequest);
+			return new ResponseEntity<>(new ApiResponse(true, "Product has been updated"), HttpStatus.OK);
+		} catch (NoSuchElementException e) {
+			return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Productid is invalid"), HttpStatus.CONFLICT);
+		}
 	}
 
 	@PreAuthorize("hasRole('admin')")

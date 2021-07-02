@@ -2,16 +2,19 @@ package com.example.Project.BackendProject.controllerInterface;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
+import com.example.Project.BackendProject.Dto.ApiResponse;
 import com.example.Project.BackendProject.Dto.UserRequest;
 import com.example.Project.BackendProject.Model.User;
 
 public interface UserContIntrf {
-	public User addUser(UserRequest userRequest);
+	User addUser(UserRequest userRequest);
 
-	public List listUser();
+	List listUser();
 
-	public User getOne(int userId);
+	ResponseEntity<ApiResponse> getOne(int userId);
 
-	public User deleteUser(int userId);
+	User deleteUser(int userId);
 
 }

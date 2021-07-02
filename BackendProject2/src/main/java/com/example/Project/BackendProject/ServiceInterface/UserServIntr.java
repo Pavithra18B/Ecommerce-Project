@@ -19,4 +19,5 @@ public interface UserServIntr {
 
 	List findAll();
 
+	User updateUser(int userId, UserRequest userRequest) throws Exception;
 }

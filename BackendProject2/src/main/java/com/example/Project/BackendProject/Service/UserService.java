@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.Project.BackendProject.Dto.UserRequest;
+import com.example.Project.BackendProject.Model.Category;
+import com.example.Project.BackendProject.Model.Product;
 import com.example.Project.BackendProject.Model.Role;
 import com.example.Project.BackendProject.Model.User;
 import com.example.Project.BackendProject.Repository.RoleRepo;
@@ -89,5 +91,25 @@ public class UserService implements UserServIntr {
 	public User findById(int userId) {
 		return userRepo.findById(userId).get();
 	}
+
+	public User updateUser(int userId, UserRequest userRequest) throws Exception {
+		log.info("Upadte user service method");
+		User user = new User();
+		Optional<User> users = userRepo.findById(userId);
+		if (!users.isPresent()) {
+			throw new Exception("Could not find user with id- " + users);
+		} else {
+
+			user.setEmailId(userRequest.getEmailId());
+			user.setFirstName(userRequest.getFirstName());
+			user.setLastName(userRequest.getLastName());
+			user.setUserName(userRequest.getUserName());
+			user.setUserPassword(userRequest.getUserPassword());
+						}
+
+		user.setUserId(userId);
+		return userRepo.save(user);
+	}
+
 
 }

@@ -1,6 +1,8 @@
 package com.example.Project.BackendProject.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Project.BackendProject.Dto.ApiResponse;
 import com.example.Project.BackendProject.Dto.CategoryRequest;
+import com.example.Project.BackendProject.Dto.ProductRequest;
 import com.example.Project.BackendProject.Model.Category;
+import com.example.Project.BackendProject.Model.Product;
 import com.example.Project.BackendProject.Service.CategoryService;
 import com.example.Project.BackendProject.controllerInterface.CategoryControllerInter;
 
@@ -58,19 +63,15 @@ public class CategoryController implements CategoryControllerInter {
 	}
 
 	@PreAuthorize("hasRole('admin')")
-	@PostMapping("/update/{category_id}")
-	@ApiOperation(value = "Update category")
-	public Category updateCategory(@PathVariable("category_id") Long categoryId,
-			@RequestBody CategoryRequest categoryRequest) throws Exception {
-		log.info("update Category details");
-		return categoryService.updateCategory(categoryId, categoryRequest);
-	}
-
-	@PreAuthorize("hasRole('admin')")
 	@GetMapping(value = "/getby/{category_id}")
 	@ApiOperation(value = "get category with details by id")
-	public Category getOne(@PathVariable(value = "category_id") Long categoryId) {
-		return categoryService.findById(categoryId);
+	public ResponseEntity<ApiResponse> getOne(@PathVariable(value = "category_id") Long categoryId) {
+		try {
+			Category category = categoryService.findById(categoryId);
+			return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Category with the given categoryId is available "), HttpStatus.OK);
+		} catch (NoSuchElementException e) {
+			return new ResponseEntity<ApiResponse>(new ApiResponse(false, "categoryId is invalid"), HttpStatus.CONFLICT);
+		}
 	}
 
 	@PreAuthorize("hasRole('admin')")
@@ -80,4 +81,21 @@ public class CategoryController implements CategoryControllerInter {
 		categoryService.delete(categoryId);
 		return new Category(categoryId);
 	}
+	
+	@PreAuthorize("hasRole('admin')")
+	@PostMapping("/update/{category_id}")
+	@ApiOperation(value = "Update category")
+	public ResponseEntity<ApiResponse> updateCategory(@PathVariable("category_id") Long categoryId,
+			@RequestBody CategoryRequest categoryRequest) throws Exception {
+		log.info("update Category details");
+		try {
+			Category existCategory = categoryService.findById(categoryId);
+			categoryService.updateCategory(categoryId, categoryRequest);
+			return new ResponseEntity<>(new ApiResponse(true, "category has been updated"), HttpStatus.OK);
+		} catch (NoSuchElementException e) {
+			return new ResponseEntity<ApiResponse>(new ApiResponse(false, "category does not exist"), HttpStatus.CONFLICT);
+		}
+	}
+
+	
 }
