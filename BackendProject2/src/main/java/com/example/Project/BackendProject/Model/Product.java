@@ -1,5 +1,7 @@
 package com.example.Project.BackendProject.Model;
 
+import java.util.List;
+
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +29,7 @@ public class Product {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "productcat_id", referencedColumnName = "category_id")
 	private Category category;
-
+	
 	public Product() {
 		log.info("Product Entity");
 	}

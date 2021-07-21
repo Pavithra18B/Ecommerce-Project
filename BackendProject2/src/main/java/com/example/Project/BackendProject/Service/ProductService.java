@@ -105,5 +105,10 @@ public class ProductService implements ProductServiceInter {
 	public void deleteAllProducts() {
 		productRepo.deleteAll();
 	}
+	
+	public static ProductRequest getDtoFromProduct(Product product) {
+        ProductRequest productRequest = new ProductRequest(product);
+        return productRequest;
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.example.Project.BackendProject.Model;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -33,7 +34,7 @@ public class User {
 	@JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "ROLE_ID") })
 	private Set<Role> role;
-
+    
 	public User() {
 		log.info("User Entity");
 	}
